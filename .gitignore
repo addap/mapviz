@@ -1,0 +1,4 @@
+.venv/
+prettymaps/
+osmnx-examples/
+cache/

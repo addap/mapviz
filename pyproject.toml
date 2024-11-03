@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "mapviz"
+version = "0.1.0"
+description = ""
+authors = ["Adrian Dapprich <adrian@dappri.ch>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+osmnx = {git = "https://github.com/gboeing/osmnx.git", rev = "v2.0.0b3"}
+ipykernel = "^6.29.5"
+matplotlib = "^3.9.2"
+pycairo = "^1.27.0"
+svg-py = "^1.5.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
