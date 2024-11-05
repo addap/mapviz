@@ -41,7 +41,7 @@ def dilate_graph(
         gdf["width"] = width
 
     def dilate(row):
-        if type(row.geometry) [LineString, MultiLineString, Point, MultiPoint]:
+        if type(row.geometry) in [LineString, MultiLineString, Point, MultiPoint]:
             return row.geometry.buffer(row.width, cap_style="flat")
         else:
             return row.geometry

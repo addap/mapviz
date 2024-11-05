@@ -1,7 +1,7 @@
 import os.path
 
-from .map import osm_get_map
-from .svg import generate_svg
+from mapviz.map import osm_get_map
+from mapviz.svg import generate_svg
 
 street_types = [
     'motorway', 'motorway_link', 'trunk', 'trunk_link', 'primary', 'primary_link', 
@@ -116,14 +116,20 @@ places = {
     "Berlin": (52.51702, 13.40178),
 }
 
-# Customize this
-placename = "Napoli"
-dist = 400
 
-coordinates = places[placename]
-
-MAP_DIR="../maps/"
+MAP_DIR="./maps/"
 SIZE=2048
 
-map = osm_get_map(layers, coordinates, dist)
-generate_svg(map, os.path.join(MAP_DIR, f"{placename}-{dist}.svg"), SIZE, styles)
+def generate(placename, dist):
+    coordinates = places[placename]
+    map = osm_get_map(layers, coordinates, dist)
+    generate_svg(map, os.path.join(MAP_DIR, f"{placename}-{dist}.svg"), SIZE, styles)
+
+if __name__ == "__main__":
+    import sys
+    dist = int(sys.argv[1])
+    placenames = sys.argv[2].split(",")
+
+    for placename in placenames:
+        print(f"Generate {placename}@{dist}")
+        generate(placename, dist)
