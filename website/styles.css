@@ -1,0 +1,104 @@
+:root {
+    --blue: #216edb;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.side-menu {
+    width: 40%;
+    height: 100%;
+    position: fixed;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: aqua;
+    border: solid 2px var(--blue);
+}
+
+.side-menu h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color:#101d85;
+}
+
+.menu-layer {
+    margin: 20px auto;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+.menu-layer:not(.centered) {
+    justify-content: space-between;
+}
+
+.centered {
+    justify-content: center;
+}
+
+.menu-layer label {
+    cursor: pointer;
+}
+
+.menu-layer input[type="color"] {
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    rotate: 45deg;
+}
+
+.menu-layer input[type="color"]::-webkit-color-swatch, .menu-layer input[type="color"]::-moz-color-swatch {
+    border-radius: 5px;
+    border: none;
+}
+
+.svg-selection input[type="file"] {
+    display: none;
+}
+
+.btn {
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+    background-color: var(--blue);
+    color: #fff;
+    border-radius: 10%;
+}
+
+.btn:hover {
+    background-color: #101d85;
+}
+
+.picture-preview {
+    height: 100%;
+    width: 60%;
+    margin-left: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.container {
+    width: 90%;
+    height: 90%;
+}

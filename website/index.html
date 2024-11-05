@@ -1,14 +1,53 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-</head>
-
-<body>
-    <input id="svg-input" type="file" />
-    <input id="svg-output" type="button" />
-    <div id="svg-container" width="100vw" height="100vh"></div>
-    <script src="script.js"></script>
-</body>
-
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width;initial-scale=1.0" />
+        <title>Map Color Picker</title>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="side-menu">
+            <h1 class="centered">Map Color Picker</h1>
+            <div class="menu-layer">
+                <label for="streets">Streets</label>
+                <input class="color-picker" id="streets" type="color" />
+            </div>
+            <div class="menu-layer">
+                <label for="railway">Railway</label>
+                <input class="color-picker" id="railway" type="color" />
+            </div>
+            <div class="menu-layer">
+                <label for="water">Water</label>
+                <input class="color-picker" id="water" type="color" />
+            </div>
+            <div class="menu-layer">
+                <label for="buildings">Buildings</label>
+                <input class="color-picker" id="building" type="color" />
+            </div>
+            <div class="menu-layer">
+                <label for="parks">Parks</label>
+                <input class="color-picker" id="green" type="color" />
+            </div>
+            <div class="menu-layer">
+                <label for="beach">Beach</label>
+                <input class="color-picker" id="beach" type="color" />
+            </div>
+            <div class="menu-layer">
+                <label for="parking">Parking Lots</label>
+                <input class="color-picker" id="parking" type="color" />
+            </div>
+            <div id="svg-selection" class="menu-layer centered">
+                <label class="svg-selection btn" for="svg-file"><input id="svg-file" type="file" />Upload SVG</label>
+            </div>
+        </div>
+        <div class="picture-preview">
+            <div class="container" id="img-box"></div>
+            <button class="btn" id="download-btn">Download SVG</button>
+        </div>
+        <script src="script.js"></script>
+    </body>
 </html>
