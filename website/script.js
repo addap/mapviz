@@ -6,37 +6,36 @@ const sideMenu = document.getElementById("side-menu");
 const btnContainer = document.getElementById("btn-container");
 //let url = undefined;
 
-
 const generalHandler = (e) => {
     console.log(e);
     const color = e.target.value;
-    const layer = e.target.id;
-    const cls = `mapviz-${layer}`;
+    const layerClass = e.target.getAttribute("data-class");
 
-    console.log(cls);
+    console.log(layerClass);
     
-    const objects = document.getElementsByClassName(cls);
+    const objects = document.getElementsByClassName(layerClass);
     for (const object of objects) {
         object.style.fill = color;
     }
-
-    console.log(objects);
 }
 
 const createColorPicker = (colorPickerInfo) => {
-    const label = document.createElement("label");
-    label.setAttribute("for", colorPickerInfo.layer);
-    label.innerText = colorPickerInfo.name;
 
     const input = document.createElement("input");
-    input.setAttribute("id", colorPickerInfo.layer);
+    input.setAttribute("data-class", colorPickerInfo.layerClass);
     input.classList.add("color-picker");
     input.setAttribute("type", "color");
     input.value = colorPickerInfo.color;
     input.addEventListener("change", generalHandler);
+    input.id = colorPickerInfo.layerName;
+
+    const label = document.createElement("label");
+    label.innerText = colorPickerInfo.name;
+    label.htmlFor = input.id;
 
     const div = document.createElement("div");
     div.classList.add("menu-layer");
+
     div.appendChild(label);
     div.appendChild(input);
 
@@ -45,13 +44,14 @@ const createColorPicker = (colorPickerInfo) => {
 
 function analyzeSVGEl(element) {
 
-    const cls = element.classList[0];
+    const layerClass = element.classList[0];
     const color = element.getAttribute("fill");
-    const layer = cls.substring(7);
-    const name = layer.charAt(0).toUpperCase() + layer.slice(1);
+    const layerName = layerClass.substring(7);
+    const name = layerName.charAt(0).toUpperCase() + layerName.slice(1);
 
     return {
-        "layer": layer,
+        "layerClass": layerClass,
+        "layerName": layerName,
         "name": name,
         "color": color
     };
@@ -63,7 +63,7 @@ function analyzeSVG (svg) {
     
     for (const element of svg.children) {
         const elInfo = analyzeSVGEl(element);
-        svgInfo[elInfo.layer] = elInfo;
+        svgInfo[elInfo.layerClass] = elInfo;
     };
 
     return svgInfo;
@@ -80,11 +80,17 @@ const uploadBtnHandler = (e) => {
             preview.removeChild(preview.children[0]);
         }
 
-        const oldColorPickers = document.getElementsByClassName("menu-layer");
+        /* adrian: Here it is very important to make an array out of the HTMLCollection 
+         * returned by getElementsByClassName because the HTMLCollection gets updated whenever
+         * the DOM is changed. So when we delete an element in the for loop below, the 
+         * oldColorPickers variable is updated and then the for loop gets completely confused 
+         * and we end up skipping elements. I hate javascript so much. 
+         * ref: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection
+         */
+        const oldColorPickers = Array.from(document.getElementsByClassName("menu-layer"));
         console.log(oldColorPickers);
         for (const colorPicker of oldColorPickers) {
-            console.log("deleting " + colorPicker.id)
-            sideMenu.removeChild(colorPicker);
+            colorPicker.remove();
         }
 
         preview.insertAdjacentHTML("afterbegin", s);
@@ -92,7 +98,6 @@ const uploadBtnHandler = (e) => {
         const svgInfo = analyzeSVG(svgEl);
         console.log(svgInfo);        
 
-        
         for (const colorPickerInfo of Object.values(svgInfo)) {
             createColorPicker(colorPickerInfo);
         }
