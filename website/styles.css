@@ -29,13 +29,13 @@ body {
 }
 
 .side-menu h1 {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: bold;
     color:#101d85;
+    font-family: 'Courier New', Courier, monospace;
 }
 
-.menu-layer {
-    margin: 20px auto;
+.menu-layer, .menu-buttons {
     width: 50%;
     display: flex;
     flex-direction: row;
@@ -43,7 +43,7 @@ body {
     gap: 30px;
 }
 
-.menu-layer:not(.centered) {
+.menu-layer {
     justify-content: space-between;
 }
 
@@ -70,7 +70,7 @@ body {
     border: none;
 }
 
-.svg-selection input[type="file"] {
+.no-display {
     display: none;
 }
 
@@ -101,4 +101,8 @@ body {
 .container {
     width: 90%;
     height: 90%;
+}
+
+.hide {
+    display: none;
 }

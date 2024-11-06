@@ -10,11 +10,11 @@
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <div class="side-menu">
+        <div class="side-menu" id="side-menu">
             <h1 class="centered">Map Color Picker</h1>
-            <div class="menu-layer">
+            <!-- <div class="menu-layer">
                 <label for="streets">Streets</label>
-                <input class="color-picker" id="streets" type="color" />
+                <input class="color-picker" id="street" type="color" />
             </div>
             <div class="menu-layer">
                 <label for="railway">Railway</label>
@@ -39,14 +39,14 @@
             <div class="menu-layer">
                 <label for="parking">Parking Lots</label>
                 <input class="color-picker" id="parking" type="color" />
-            </div>
-            <div id="svg-selection" class="menu-layer centered">
-                <label class="svg-selection btn" for="svg-file"><input id="svg-file" type="file" />Upload SVG</label>
+            </div> -->
+            <div id="btn-container" class="menu-buttons centered">
+                <label class="btn" for="svg-file"><input class="no-display" id="svg-file" type="file" />Upload SVG</label>
+                <label class="btn hide" for="download-btn"><button class="no-display" id="download-btn"></button>Download SVG</label>
             </div>
         </div>
         <div class="picture-preview">
             <div class="container" id="img-box"></div>
-            <button class="btn" id="download-btn">Download SVG</button>
         </div>
         <script src="script.js"></script>
     </body>
