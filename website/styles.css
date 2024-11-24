@@ -1,5 +1,6 @@
 :root {
-    --blue: #216edb;
+    --blue: #101d85;
+    --dark-blue: #070c35;
 }
 
 html {
@@ -11,12 +12,12 @@ body {
     width: 100vw;
     margin: 0;
     padding: 0;
-    font-family: Helvetica, sans-serif;
+    font-family: "Exo", sans-serif;
     font-size: 16px;
 }
 
 .side-menu {
-    width: 40%;
+    width: 30%;
     height: 100%;
     position: fixed;
     left: 0px;
@@ -31,8 +32,8 @@ body {
 .side-menu h1 {
     font-size: 28px;
     font-weight: bold;
-    color:#101d85;
-    font-family: 'Courier New', Courier, monospace;
+    color: var(--blue);
+    font-family: "Audiowide", sans-serif;
 }
 
 .menu-layer, .menu-buttons {
@@ -43,6 +44,14 @@ body {
     gap: 30px;
 }
 
+.cp-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 14px;
+}
+
 .menu-layer {
     justify-content: space-between;
 }
@@ -51,23 +60,19 @@ body {
     justify-content: center;
 }
 
-.menu-layer label {
-    cursor: pointer;
-}
-
 .menu-layer input[type="color"] {
     appearance: none;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     background-color: transparent;
     border: none;
     cursor: pointer;
-    rotate: 45deg;
 }
 
 .menu-layer input[type="color"]::-webkit-color-swatch, .menu-layer input[type="color"]::-moz-color-swatch {
-    border-radius: 5px;
-    border: none;
+    border-radius: 25%;
+    border: 1px solid black;
+    rotate: 45deg;
 }
 
 .no-display {
@@ -81,28 +86,45 @@ body {
     background-color: var(--blue);
     color: #fff;
     border-radius: 10%;
+    cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #101d85;
+    background-color: var(--dark-blue);
 }
 
 .picture-preview {
     height: 100%;
-    width: 60%;
-    margin-left: 40%;
+    width: 70%;
+    margin-left: 30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: black;
+    background-color: var(--dark-blue);
 }
 
 .container {
-    width: 90%;
-    height: 90%;
+    width: 95%;
+    height: 95%;
 }
 
 .hide {
     display: none;
+}
+
+@media (max-width:1200px) {
+    .side-menu {
+        width: 40%;
+    }
+    
+    .side-menu h1 {
+        font-size: 21px;
+    }
+ 
+    .picture-preview {
+        height: 100%;
+        width: 60%;
+        margin-left: 40%;
+    }
 }

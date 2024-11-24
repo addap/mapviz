@@ -5,39 +5,66 @@ const downloadBtn = document.getElementById("download-btn");
 const sideMenu = document.getElementById("side-menu");
 const btnContainer = document.getElementById("btn-container");
 //let url = undefined;
+let svgInfo = undefined;
+
+const redrawLayer = (layerClass) => {
+    const objects = document.getElementsByClassName(layerClass);
+    const colors = svgInfo[layerClass].colors;
+    for (const object of objects) {
+        let i = Math.floor(Math.random() * colors.length);
+        object.style.fill = colors[i];
+    }
+};
 
 const generalHandler = (e) => {
     console.log(e);
     const color = e.target.value;
     const layerClass = e.target.getAttribute("data-class");
+    const index = e.target.getAttribute("data-index");
+    svgInfo[layerClass].colors[index] = color;
+    redrawLayer(layerClass);
 
     console.log(layerClass);
-    
-    const objects = document.getElementsByClassName(layerClass);
-    for (const object of objects) {
-        object.style.fill = color;
-    }
+}
+
+function addColorPicker(layerClass) {
+    const elInfo = svgInfo[layerClass];
+    elInfo.colors.push(elInfo.colors[elInfo.colors.length - 1]);
+    svgInfo[layerClass] = elInfo;
 }
 
 const createColorPicker = (colorPickerInfo) => {
+    
+    const cpDiv = document.createElement("div");
+    cpDiv.classList.add("cp-container");
 
-    const input = document.createElement("input");
-    input.setAttribute("data-class", colorPickerInfo.layerClass);
-    input.classList.add("color-picker");
-    input.setAttribute("type", "color");
-    input.value = colorPickerInfo.color;
-    input.addEventListener("change", generalHandler);
-    input.id = colorPickerInfo.layerName;
+    let i = 0;
+    for (const color of colorPickerInfo.colors) {
+        const input = document.createElement("input");
+        input.setAttribute("data-class", colorPickerInfo.layerClass);
+        input.setAttribute("data-index", i);
+        i += 1;
+        input.classList.add("color-picker");
+        input.setAttribute("type", "color");
+        input.value = color;
+        input.addEventListener("change", generalHandler); 
+        cpDiv.appendChild(input);
+    };
+    
+    const plusBtn = document.createElement("button");
+    plusBtn.value = "+";
+    plusBtn.addEventListener("click", () => addColorPicker(colorPickerInfo.layerClass));
 
+    
     const label = document.createElement("label");
     label.innerText = colorPickerInfo.name;
-    label.htmlFor = input.id;
+    //label.htmlFor = input.id;
 
     const div = document.createElement("div");
     div.classList.add("menu-layer");
 
     div.appendChild(label);
-    div.appendChild(input);
+    div.appendChild(cpDiv);
 
     sideMenu.insertBefore(div, btnContainer);
 };
@@ -53,7 +80,7 @@ function analyzeSVGEl(element) {
         "layerClass": layerClass,
         "layerName": layerName,
         "name": name,
-        "color": color
+        "colors": new Set([color])
     };
 };
 
@@ -63,8 +90,15 @@ function analyzeSVG (svg) {
     
     for (const element of svg.children) {
         const elInfo = analyzeSVGEl(element);
-        svgInfo[elInfo.layerClass] = elInfo;
+
+        if (elInfo.layerClass in svgInfo) {
+            svgInfo[elInfo.layerClass].colors = svgInfo[elInfo.layerClass].colors.union(elInfo.colors);
+        } else {
+            svgInfo[elInfo.layerClass] = elInfo;
+        }
     };
+
+    for (const key in svgInfo) {svgInfo[key].colors = Array.from(svgInfo[key].colors)};
 
     return svgInfo;
 };
@@ -95,10 +129,17 @@ const uploadBtnHandler = (e) => {
 
         preview.insertAdjacentHTML("afterbegin", s);
         const svgEl = document.getElementsByClassName("mapviz-map")[0];
-        const svgInfo = analyzeSVG(svgEl);
-        console.log(svgInfo);        
+        svgInfo = analyzeSVG(svgEl);
+        console.log(svgInfo);  
+        const elInfos = Object.values(svgInfo);
+        elInfos.sort((i1, i2) => {
+            if (i1.name < i2.name) { return -1; }
+            else if (i1.name > i2.name) { return 1; }
+            else { return 0; }
+        });      
 
-        for (const colorPickerInfo of Object.values(svgInfo)) {
+
+        for (const colorPickerInfo of elInfos) {
             createColorPicker(colorPickerInfo);
         }
 
